@@ -14,7 +14,7 @@ class Url(models.Model):
     def save(self, *args, **kwargs) -> None:
         super().save(*args, **kwargs)
         if self.pk and not self.url_id:
-            # Generate unique ID based on the PK
+            # Generate a unique ID based on the PK
             self.url_id = get_url_id(self)
             super().save(update_fields=["url_id"])
 

@@ -4,6 +4,10 @@ from apps.shortener.models import Url
 
 
 class UrlModelSerializer(serializers.ModelSerializer):
+    """
+    Takes an absolute URL and returns a shorter link
+    """
+
     short_url = serializers.HyperlinkedIdentityField(
         view_name="app:entrypoint",
         lookup_field="url_id",
