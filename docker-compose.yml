@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  web:
+    image: "szwch:dev"
+    build:
+      context: .
+      args:
+        DJANGO_ENV: development
+    command: uvicorn szwch.asgi:application --host 0.0.0.0 --port 8888 --reload
+    restart: on-failure
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+      - redis
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - REDIS_PORT=6379
+      - REDIS_HOST=redis
+      - DEBUG=True
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  redis:
+    image: bitnami/redis:6.2.10
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - redis:/data
+volumes:
+  db:
+    driver: local
+  redis:
+    driver: local
