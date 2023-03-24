@@ -6,6 +6,10 @@ from .serializers import UrlModelSerializer
 
 
 class UrlShortenerCreateAPIView(CreateAPIView):
+    """
+    Converts the link to a shorter version
+    """
+
     model = Url
     serializer_class = UrlModelSerializer
 
